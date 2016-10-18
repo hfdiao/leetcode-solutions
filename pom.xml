@@ -11,6 +11,7 @@
     <modules>
         <module>p389</module>
         <module>p387</module>
+        <module>p1</module>
     </modules>
 
 
