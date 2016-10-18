@@ -1,7 +1,6 @@
 package im.dhf.leetcode.p387;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Solution {
     public int firstUniqChar(String s) {
@@ -9,23 +8,24 @@ public class Solution {
             return -1;
         }
 
-        Map<Character, Integer> map = new HashMap<>();
+        Set<Character> appearances = new HashSet<>();
+        LinkedHashMap<Character, Integer> candidateIndexes = new LinkedHashMap<>();
         char[] chars = s.toCharArray();
-        for (char c : chars) {
-            Character key = Character.valueOf(c);
-            int cnt = 0;
-            if (map.containsKey(key)) {
-                cnt = map.get(key);
-            }
-            ++cnt;
-            map.put(key, cnt);
-        }
         for (int i = 0; i < chars.length; ++i) {
             char c = chars[i];
             Character key = Character.valueOf(c);
-            int cnt = map.get(key);
-            if (cnt == 1) {
-                return i;
+            if (appearances.contains(key)) {
+                candidateIndexes.remove(key);
+            } else {
+                appearances.add(key);
+                candidateIndexes.put(key, i);
+            }
+        }
+        if (candidateIndexes.isEmpty()) {
+            return -1;
+        } else {
+            for (Map.Entry<Character, Integer> entry : candidateIndexes.entrySet()) {
+                return entry.getValue();
             }
         }
         return -1;
